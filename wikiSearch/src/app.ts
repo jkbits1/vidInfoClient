@@ -7,7 +7,12 @@ import {Component, FORM_DIRECTIVES, CORE_DIRECTIVES, Observable, EventEmitter} f
 import {Http, URLSearchParams} from 'angular2/http';
 import {JSONP_PROVIDERS, Jsonp} from 'angular2/http';
 
-var url = "http://en.wikipedia.org/w/api.php?callback=JSONP_CALLBACK";
+//var url = "http://en.wikipedia.org/w/api.php?callback=JSONP_CALLBACK";
+//var url = "http://localhost:9090/vidInfo";
+//var url = "http://localhost:9090/vidInfo?callback=JSONP_CALLBACK";
+var url = "http://localhost:9090/vidInfo?callback=JSON_CALLBACK";
+
+
 
 @Component({
     selector: 'my-app',
@@ -17,7 +22,9 @@ var url = "http://en.wikipedia.org/w/api.php?callback=JSONP_CALLBACK";
     Wikipedia Search
 <input #search type="text" (keyup)="keyup($event)">
 <ul>
-    <li *ng-for="#result of results"><a href="{{result.url}}">{{result.title}}</a></li>
+    <li *ng-for="#result of results">
+      {{result.titleNumber}} {{result.length}}
+    </li>
 </ul>
 <pre>{{ search.value | json }}</pre>
 </div>
@@ -38,18 +45,19 @@ export class App {
                 params.append('search', encodeURI(term));
                 params.append('format', 'json');
 
-                return jsonp.request(url, {search: params})
+                //return jsonp.request(url, {search: params})
                 //return http.get("http://en.wikipedia.org/w/api.php?callback=JSON_CALLBACK", {search: params})
+                return http.get(url, {search: params})
                     .map(res => {
                         return res.json()
                     });
             })
             .subscribe((term) => {
                 console.log('Searching term: ' + term);
-                this.results = term[1].map((val, idx) => {
+                this.results = term.map((val, idx) => {
                     return {
-                        title: val,
-                        url: term[3][idx]
+                        titleNumber: val.titleNumber,
+                        length: val.length
                     }
                 });
             },
