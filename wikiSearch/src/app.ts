@@ -10,7 +10,9 @@ import {JSONP_PROVIDERS, Jsonp} from 'angular2/http';
 //var url = "http://en.wikipedia.org/w/api.php?callback=JSONP_CALLBACK";
 //var url = "http://localhost:9090/vidInfo";
 //var url = "http://localhost:9090/vidInfo?callback=JSONP_CALLBACK";
-var url = "http://localhost:9090/vidInfo?callback=JSON_CALLBACK";
+//var url = "http://localhost:9090/vidInfo?callback=JSON_CALLBACK";
+var url = "http://localhost:9090/vidInfo/";
+var urlCb = "?callback=JSON_CALLBACK";
 
 
 
@@ -41,13 +43,18 @@ export class App {
             .switchMap(term => {
                 //working plunker http://plnkr.co/edit/P8dELQZ6HlglomXSvOcj?p=preview
                 var params = new URLSearchParams();
+                
+                var url2;
                 params.append('action', 'opensearch');
                 params.append('search', encodeURI(term));
                 params.append('format', 'json');
+                params.append('fileName', encodeURI(term));
 
                 //return jsonp.request(url, {search: params})
                 //return http.get("http://en.wikipedia.org/w/api.php?callback=JSON_CALLBACK", {search: params})
-                return http.get(url, {search: params})
+                
+                url2 = url + term + urlCb;
+                return http.get(url2, {search: params})
                     .map(res => {
                         return res.json()
                     });
