@@ -25,7 +25,10 @@ var urlCb = "?callback=JSON_CALLBACK";
 <input #search type="text" (keyup)="keyup($event)">
 <ul>
     <li *ng-for="#result of results">
-      {{result.titleNumber}} {{result.length}}
+        <div class="titleNumberCol">
+            {{result.titleNumber}}</div>
+        <span class="lengthCol">
+            {{result.length}}</span>
     </li>
 </ul>
 <pre>{{ search.value | json }}</pre>

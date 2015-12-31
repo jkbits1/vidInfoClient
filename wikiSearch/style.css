@@ -1,0 +1,35 @@
+@font-face {
+  font-family: 'museo_slab500';
+  src: url('fonts/Museo_Slab_500_2-webfont.eot');
+  src: url('fonts/Museo_Slab_500_2-webfont.eot?#iefix') format('embedded-opentype'),
+  url('fonts/Museo_Slab_500_2-webfont.woff') format('woff'),
+  url('fonts/Museo_Slab_500_2-webfont.ttf') format('truetype'),
+  url('fonts/Museo_Slab_500_2-webfont.svg#museo_slab500') format('svg');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+body {
+  font-family: 'museo_slab500';
+
+  line-height: 28px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+li {
+  width: 400px;
+}
+
+.titleNumberCol {
+  width: 70px;
+  float: left;
+}
+
+.lengthCol {
+  width: 280px;
+
+}
