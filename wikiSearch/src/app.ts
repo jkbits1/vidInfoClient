@@ -55,6 +55,10 @@ export class App {
 
                 //return jsonp.request(url, {search: params})
                 //return http.get("http://en.wikipedia.org/w/api.php?callback=JSON_CALLBACK", {search: params})
+
+                if (term === undefined || term.length === 0) {
+                    term = "red-info.txt";
+                }
                 
                 url2 = url + term + urlCb;
                 return http.get(url2, {search: params})
