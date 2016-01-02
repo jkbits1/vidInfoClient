@@ -14,29 +14,28 @@ import {JSONP_PROVIDERS, Jsonp} from 'angular2/http';
 var url = "http://localhost:9090/vidInfo/";
 var urlCb = "?callback=JSON_CALLBACK";
 
-
-
 @Component({
     selector: 'my-app',
     providers: [JSONP_PROVIDERS],
     template: `
-<div>
-    Wikipedia Search
-<input #search type="text" (keyup)="keyup($event)">
-<ul>
-    <li *ng-for="#result of results">
-        <div class="titleNumberCol">
-            {{result.titleNumber}}</div>
-        <span class="lengthCol">
-            {{result.length}}</span>
-    </li>
-</ul>
-<pre>{{ search.value | json }}</pre>
-{{fileName}}
-</div>
-`,
-directives: [CORE_DIRECTIVES, FORM_DIRECTIVES]
+        <div>
+            Wikipedia Search
+        <input #search type="text" (keyup)="keyup($event)">
+        <ul>
+            <li *ng-for="#result of results">
+                <div class="titleNumberCol">
+                    {{result.titleNumber}}</div>
+                <span class="lengthCol">
+                    {{result.length}}</span>
+            </li>
+        </ul>
+        <pre>{{ search.value | json }}</pre>
+        {{fileName}}
+        </div>
+        `,
+    directives: [CORE_DIRECTIVES, FORM_DIRECTIVES]
 })
+
 export class App {
     searches: EventEmitter = new EventEmitter();
 
@@ -44,33 +43,33 @@ export class App {
         this.searches._subject
             .debounceTime(500)
             .distinctUntilChanged()
-            .switchMap(term => {
+            .switchMap(fileName => {
                 //working plunker http://plnkr.co/edit/P8dELQZ6HlglomXSvOcj?p=preview
                 var params = new URLSearchParams();
                 
                 var url2;
                 params.append('action', 'opensearch');
-                params.append('search', encodeURI(term));
+                params.append('search', encodeURI(fileName));
                 params.append('format', 'json');
-                params.append('fileName', encodeURI(term));
+                params.append('fileName', encodeURI(fileName));
 
                 //return jsonp.request(url, {search: params})
                 //return http.get("http://en.wikipedia.org/w/api.php?callback=JSON_CALLBACK", {search: params})
 
-                if (term === undefined || term.length === 0) {
-                    term = "red-info.txt";
+                if (fileName === undefined || fileName.length === 0) {
+                    fileName = "red-info.txt";
                 }
                 
-                url2 = url + term + urlCb;
+                url2 = url + fileName + urlCb;
                 return http.get(url2, {search: params})
                     .map(res => {
-                        return res.json()
+                        return res.json();
                     });
             })
-            .subscribe((term) => {
-                console.log('Searching term: ' + term);
-                this.fileName = term.fileName;
-                this.results = term.titleDetails.map((val, idx) => {
+            .subscribe((data) => {
+                console.log('Returned data: ' + data);
+                this.fileName = data.fileName;
+                this.results = data.titleDetails.map((val, idx) => {
                     return {
                         titleNumber: val.titleNumber,
                         length: val.length
