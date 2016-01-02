@@ -32,6 +32,7 @@ var urlCb = "?callback=JSON_CALLBACK";
     </li>
 </ul>
 <pre>{{ search.value | json }}</pre>
+{{fileName}}
 </div>
 `,
 directives: [CORE_DIRECTIVES, FORM_DIRECTIVES]
@@ -68,7 +69,8 @@ export class App {
             })
             .subscribe((term) => {
                 console.log('Searching term: ' + term);
-                this.results = term.map((val, idx) => {
+                this.fileName = term.fileName;
+                this.results = term.titleDetails.map((val, idx) => {
                     return {
                         titleNumber: val.titleNumber,
                         length: val.length
