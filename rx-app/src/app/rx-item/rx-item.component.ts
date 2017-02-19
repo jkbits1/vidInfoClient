@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 // import {FORM_DIRECTIVES, CORE_DIRECTIVES, Observable, EventEmitter} from '@angular2/angular2';
+import {Observable, BehaviorSubject} from 'rxjs';
 // import {Http, URLSearchParams} from '@angular2/http';
+import {Http} from '@angular/http';
 // import {JSONP_PROVIDERS, Jsonp} from '@angular2/http';
 
 @Component({
@@ -10,6 +12,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./rx-item.component.css']
 })
 export class RxItemComponent implements OnInit {
+  fileName: String = "";
+  titleDetailsParsed: String = "";
+    // private wheel1subject = new BehaviorSubject<string>("1,2,3");
+  searches = new BehaviorSubject<string>("1,2,3");
 
   constructor() { }
 
@@ -20,8 +26,6 @@ export class RxItemComponent implements OnInit {
 
 // export class App {
 //     searches: EventEmitter = new EventEmitter();
-//     fileName: String = "";
-//     titleDetailsParsed: String = "";
 
 //     constructor(http:Http, jsonp:Jsonp) {
 //         this.searches._subject
