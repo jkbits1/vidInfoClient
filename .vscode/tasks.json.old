@@ -1,0 +1,26 @@
+
+{
+    "version": "0.1.0",
+    "command": "babel",
+    "isShellCommand": true,
+    "tasks": [
+        {
+            "args": ["${workspaceRoot}/wikiSearch/src", 
+                        "--out-dir", "${workspaceRoot}/wikiSearch/lib", 
+                        "-w", "--source-maps"],
+            "taskName": "watch",
+            "suppressTaskName": true,
+            "isBuildCommand": true
+        },
+        {
+            // See https://go.microsoft.com/fwlink/?LinkId=733558
+            // for the documentation about the tasks.json format
+            "version": "0.1.0",
+            "command": "tsc",
+            "isShellCommand": true,
+            "args": ["-p", "."],
+            "showOutput": "silent",
+            "problemMatcher": "$tsc"
+        }
+    ]
+}

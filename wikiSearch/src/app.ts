@@ -11,7 +11,9 @@ import {JSONP_PROVIDERS, Jsonp} from 'angular2/http';
 //var url = "http://localhost:9090/vidInfo";
 //var url = "http://localhost:9090/vidInfo?callback=JSONP_CALLBACK";
 //var url = "http://localhost:9090/vidInfo?callback=JSON_CALLBACK";
-var url = "http://localhost:9090/vidInfo/";
+// var url = "http://localhost:9090/vidInfo/";
+// var url = "http://localhost:8000/vidInfo/";
+var url = "http://localhost:8000/vidInfoWrapped/";
 var urlCb = "?callback=JSON_CALLBACK";
 
 @Component({
@@ -19,7 +21,7 @@ var urlCb = "?callback=JSON_CALLBACK";
     providers: [JSONP_PROVIDERS],
     template: `
         <div>
-            Wikipedia Search
+            Get video file info
         <input #search type="text" (keyup)="keyup($event)">
         <ul>
             <li *ng-for="#result of results">
@@ -69,7 +71,11 @@ export class App {
             .subscribe((data) => {
                 console.log('Returned data: ' + data);
                 this.fileName = data.fileName;
-                this.results = data.titleDetails.map((val, idx) => {
+                this.titleDetailsParsed = JSON.parse(data.titleDetails);
+                this.results = 
+                    // data.titleDetails
+                    this.titleDetailsParsed
+                    .map((val, idx) => {
                     return {
                         titleNumber: val.titleNumber,
                         length: val.length
