@@ -15,9 +15,14 @@ export class RxItemComponent implements OnInit {
   fileName: String = "";
   titleDetailsParsed: String = "";
     // private wheel1subject = new BehaviorSubject<string>("1,2,3");
-  searches = new BehaviorSubject<string>("1,2,3");
+  searchesSubject = new BehaviorSubject<string>("1,2,3");
 
-  constructor() { }
+  constructor() { 
+            this.searchesSubject.asObservable()
+            .debounceTime(500)
+            .distinctUntilChanged()
+
+  }
 
   ngOnInit() {
   }
