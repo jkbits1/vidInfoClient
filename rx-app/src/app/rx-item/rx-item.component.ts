@@ -3,7 +3,8 @@ import { Component, OnInit } from '@angular/core';
 // import {FORM_DIRECTIVES, CORE_DIRECTIVES, Observable, EventEmitter} from '@angular2/angular2';
 import {Observable, BehaviorSubject} from 'rxjs';
 // import {Http, URLSearchParams} from '@angular2/http';
-import {Http, Jsonp} from '@angular/http';
+// import {Http, Jsonp} from '@angular/http';
+import {Http} from '@angular/http';
 // import {JSONP_PROVIDERS, Jsonp} from '@angular2/http';
 
 var url = "http://localhost:8000/vidInfoWrapped/";
@@ -21,7 +22,8 @@ export class RxItemComponent implements OnInit {
     // private wheel1subject = new BehaviorSubject<string>("1,2,3");
   searchesSubject = new BehaviorSubject<string>("1,2,3");
 
-  constructor(http:Http, jsonp:Jsonp) { 
+  // constructor(http:Http, jsonp:Jsonp) { 
+  constructor(http:Http) { 
             this.searchesSubject.asObservable()
             .debounceTime(500)
             .distinctUntilChanged()
@@ -49,8 +51,8 @@ export class RxItemComponent implements OnInit {
                         return res.json();
                     });
             })
-            // .subscribe((data) => {
-//                 console.log('Returned data: ' + data);
+            .subscribe((data) => {
+                console.log('Returned data: ' + data);
 //                 this.fileName = data.fileName;
 //                 this.titleDetailsParsed = JSON.parse(data.titleDetails);
 //                 this.results = 
@@ -61,7 +63,7 @@ export class RxItemComponent implements OnInit {
 //                         titleNumber: val.titleNumber,
 //                         length: val.length
 //                     }
-//                 });
+                });
             // },
             //     error => {
             //         console.error('Error loading Wikipedia article.')
@@ -75,6 +77,10 @@ export class RxItemComponent implements OnInit {
 
   ngOnInit() {
   }
+
+    keyup($event){
+        this.searchesSubject.next($event.currentTarget.value);
+    }
 
 }
 
@@ -131,7 +137,4 @@ export class RxItemComponent implements OnInit {
 //             );
 //     }
 
-//     keyup($event){
-//         this.searches.next($event.currentTarget.value);
-//     }
 // }
