@@ -20,7 +20,7 @@ export class RxItemComponent implements OnInit {
   fileName: any = "";
   titleDetailsParsed: String = "";
     // private wheel1subject = new BehaviorSubject<string>("1,2,3");
-  searchesSubject = new BehaviorSubject<string>("1,2,3");
+  searchesSubject = new BehaviorSubject<string>("");
 
   // constructor(http:Http, jsonp:Jsonp) { 
   constructor(http:Http) { 
@@ -63,15 +63,15 @@ export class RxItemComponent implements OnInit {
 //                         titleNumber: val.titleNumber,
 //                         length: val.length
 //                     }
-                });
-            // },
-            //     error => {
-            //         console.error('Error loading Wikipedia article.')
-            //     },
-            //     () => {
-            //         console.log('Completed!')
-            //     }
-            // );
+                // });
+            },
+                error => {
+                    console.error('Error connecting to server.');
+                },
+                () => {
+                    console.log('Completed!');
+                }
+            );
 
   }
 
