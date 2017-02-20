@@ -18,10 +18,16 @@ export class RxItemComponent implements OnInit {
   results: any = [];
 
   searchesSubject = new Subject<string>();
+  searchesSubjectNot = new BehaviorSubject<string>("");
+
+  fileNameSearchObservable: any = null;
+  blockedLetterObservable: any = null;
 
   constructor(http:Http) { 
-    this.searchesSubject.asObservable()
-    .debounceTime(500)
+    this.blockedLetterObservable = this.searchesSubjectNot.asObservable();
+
+    this.fileNameSearchObservable = this.searchesSubject.asObservable()
+    .debounceTime(200)
     .distinctUntilChanged()
     // pre-process fileName to prevent errors
     .map(fileName => {
@@ -31,7 +37,31 @@ export class RxItemComponent implements OnInit {
       else {
         return fileName;
       }
+    });
+
+  // this.fileNameSearchObservable.withLatestFrom
+  //   (this.blockedLetterObservable, 
+  //     (file, blocked) => 
+  //       { 
+  //         return {file, blocked} 
+  //       }
+  //   )
+  //   .filter(({file, blocked}) => { 
+  //     return (blocked.length === 0) || !(file.includes(blocked)); 
+  //   })
+
+    Observable.combineLatest 
+      (this.fileNameSearchObservable,
+        this.blockedLetterObservable,
+     (file: String, blocked) => { 
+      // return (blocked.length === 0) || !(file.includes(blocked)); 
+        return {file, blocked} 
+      }   
+    )
+    .filter(({file, blocked}) => { 
+      return (blocked.length === 0) || !(file.includes(blocked)); 
     })
+    .map(({file, blocked}) => file)
     .switchMap(fileName => {
       var url2 = url + fileName + urlCb;
 
@@ -72,13 +102,19 @@ export class RxItemComponent implements OnInit {
       },
       () => {
         console.log('Completed!');
-    });
+    });    
   }
 
   ngOnInit() {
   }
 
   keyup($event){
+    this.results = [];
     this.searchesSubject.next($event.currentTarget.value);
+  }
+
+  keyupNot($event){
+    this.results = [];
+    this.searchesSubjectNot.next($event.currentTarget.value);
   }
 }

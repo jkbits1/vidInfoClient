@@ -3,6 +3,7 @@
     Get video file info
         
     <input #search type="text" (keyup)="keyup($event)">
+    <input #searchNot type="text" (keyup)="keyupNot($event)">
     {{fileName}}
     <pre>{{ search.value | json }}</pre>
     <ul>
