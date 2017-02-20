@@ -39,22 +39,10 @@ export class RxItemComponent implements OnInit {
       }
     });
 
-  // this.fileNameSearchObservable.withLatestFrom
-  //   (this.blockedLetterObservable, 
-  //     (file, blocked) => 
-  //       { 
-  //         return {file, blocked} 
-  //       }
-  //   )
-  //   .filter(({file, blocked}) => { 
-  //     return (blocked.length === 0) || !(file.includes(blocked)); 
-  //   })
-
     Observable.combineLatest 
       (this.fileNameSearchObservable,
         this.blockedLetterObservable,
      (file: String, blocked) => { 
-      // return (blocked.length === 0) || !(file.includes(blocked)); 
         return {file, blocked} 
       }   
     )
