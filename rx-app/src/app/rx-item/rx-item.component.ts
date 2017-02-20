@@ -48,13 +48,18 @@ export class RxItemComponent implements OnInit {
       else
         return false;
     })
+    .map((data) => {
+      return { 
+        fileName: data.fileName,
+        titleDetailsParsed: JSON.parse(data.titleDetails)
+      };
+    })
     .subscribe((data) => {
         console.log('Returned data: ' + data);
         this.fileName = data.fileName;
 
-        this.titleDetailsParsed = JSON.parse(data.titleDetails);
         this.results =
-          this.titleDetailsParsed
+          data.titleDetailsParsed
           .map((val, idx) => {
             return {
               titleNumber: val.titleNumber,
