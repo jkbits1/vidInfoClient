@@ -41,9 +41,9 @@ export class RxItemComponent implements OnInit {
 //                 //return jsonp.request(url, {search: params})
 //                 //return http.get("http://en.wikipedia.org/w/api.php?callback=JSON_CALLBACK", {search: params})
 
-//                 if (fileName === undefined || fileName.length === 0) {
-//                     fileName = "red-info.txt";
-//                 }
+                if (fileName === undefined || fileName.length === 0) {
+                    fileName = "red-info.txt";
+                }
                 
                 url2 = url + fileName + urlCb;
                 // return http.get(url2, {search: params})
@@ -55,15 +55,22 @@ export class RxItemComponent implements OnInit {
             .subscribe((data) => {
                 console.log('Returned data: ' + data);
                 this.fileName = data.fileName;
-                this.titleDetailsParsed = JSON.parse(data.titleDetails);
-                this.results = //[];
-                    this.titleDetailsParsed
-                    .map((val, idx) => {
-                        return {
-                            titleNumber: val.titleNumber,
-                            length: val.length
-                        }
-                    });
+
+                if (this.fileName === undefined || this.fileName.length === 0) {
+                    this.fileName = "no file";
+                }
+                else 
+                {
+                    this.titleDetailsParsed = JSON.parse(data.titleDetails);
+                    this.results =
+                        this.titleDetailsParsed
+                        .map((val, idx) => {
+                            return {
+                                titleNumber: val.titleNumber,
+                                length: val.length
+                            }
+                        });                                    
+                }
             },
                 error => {
                     console.error('Error connecting to server.');
