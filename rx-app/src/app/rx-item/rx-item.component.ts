@@ -18,9 +18,9 @@ var urlCb = "?callback=JSON_CALLBACK";
 export class RxItemComponent implements OnInit {
   // fileName: String = "";
   fileName: any = "";
-  titleDetailsParsed: String = "";
-    // private wheel1subject = new BehaviorSubject<string>("1,2,3");
-  // searchesSubject = new BehaviorSubject<string>("");
+  titleDetailsParsed: Array<any> = [];
+  results: any = [];
+  // private searchesSubject = new BehaviorSubject<string>("");
   searchesSubject = new Subject<string>();
 
   // constructor(http:Http, jsonp:Jsonp) { 
@@ -54,17 +54,16 @@ export class RxItemComponent implements OnInit {
             })
             .subscribe((data) => {
                 console.log('Returned data: ' + data);
-//                 this.fileName = data.fileName;
-//                 this.titleDetailsParsed = JSON.parse(data.titleDetails);
-//                 this.results = 
-//                     // data.titleDetails
-//                     this.titleDetailsParsed
-//                     .map((val, idx) => {
-//                     return {
-//                         titleNumber: val.titleNumber,
-//                         length: val.length
-//                     }
-                // });
+                this.fileName = data.fileName;
+                this.titleDetailsParsed = JSON.parse(data.titleDetails);
+                this.results = //[];
+                    this.titleDetailsParsed
+                    .map((val, idx) => {
+                        return {
+                            titleNumber: val.titleNumber,
+                            length: val.length
+                        }
+                    });
             },
                 error => {
                     console.error('Error connecting to server.');
