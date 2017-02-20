@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 // import {FORM_DIRECTIVES, CORE_DIRECTIVES, Observable, EventEmitter} from '@angular2/angular2';
-import {Observable, BehaviorSubject} from 'rxjs';
+import {Observable, Subject, BehaviorSubject} from 'rxjs';
 // import {Http, URLSearchParams} from '@angular2/http';
 // import {Http, Jsonp} from '@angular/http';
 import {Http} from '@angular/http';
@@ -20,7 +20,8 @@ export class RxItemComponent implements OnInit {
   fileName: any = "";
   titleDetailsParsed: String = "";
     // private wheel1subject = new BehaviorSubject<string>("1,2,3");
-  searchesSubject = new BehaviorSubject<string>("");
+  // searchesSubject = new BehaviorSubject<string>("");
+  searchesSubject = new Subject<string>();
 
   // constructor(http:Http, jsonp:Jsonp) { 
   constructor(http:Http) { 
