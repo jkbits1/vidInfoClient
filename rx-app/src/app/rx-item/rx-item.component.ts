@@ -28,39 +28,35 @@ export class RxItemComponent implements OnInit {
             this.searchesSubject.asObservable()
             .debounceTime(500)
             .distinctUntilChanged()
-            .switchMap(fileName => {
-//                 //working plunker http://plnkr.co/edit/P8dELQZ6HlglomXSvOcj?p=preview
-//                 var params = new URLSearchParams();
-                
-                var url2;
-//                 params.append('action', 'opensearch');
-//                 params.append('search', encodeURI(fileName));
-//                 params.append('format', 'json');
-//                 params.append('fileName', encodeURI(fileName));
-
-//                 //return jsonp.request(url, {search: params})
-//                 //return http.get("http://en.wikipedia.org/w/api.php?callback=JSON_CALLBACK", {search: params})
-
+            // pre-process fileName to prevent errors
+            .map(fileName => {
                 if (fileName === undefined || fileName.length === 0) {
-                    fileName = "red-info.txt";
+                    return "red-info.txt";
                 }
-                
-                url2 = url + fileName + urlCb;
-                // return http.get(url2, {search: params})
+                else {
+                    return fileName;
+                }
+            })
+            .switchMap(fileName => {
+                var url2 = url + fileName + urlCb;
+
                 return http.get(url2) //, {search: params}
                     .map(res => {
                         return res.json();
                     });
             })
+            // handle error checking in a specific Observable, 
+            // this is MUCH more elegant than the usual js way
+            .filter((data) => { 
+                if (data.fileName !== undefined && data.fileName.length !== 0)
+                    return true;
+                else
+                    return false;
+            })
             .subscribe((data) => {
-                console.log('Returned data: ' + data);
-                this.fileName = data.fileName;
+                    console.log('Returned data: ' + data);
+                    this.fileName = data.fileName;
 
-                if (this.fileName === undefined || this.fileName.length === 0) {
-                    this.fileName = "no file";
-                }
-                else 
-                {
                     this.titleDetailsParsed = JSON.parse(data.titleDetails);
                     this.results =
                         this.titleDetailsParsed
@@ -70,15 +66,13 @@ export class RxItemComponent implements OnInit {
                                 length: val.length
                             }
                         });                                    
-                }
-            },
+                },
                 error => {
                     console.error('Error connecting to server.');
                 },
                 () => {
                     console.log('Completed!');
-                }
-            );
+            });
 
   }
 
