@@ -1,17 +1,17 @@
 <div>
-    <div>
-        Get video file info
-            
-        <input #search type="text" (keyup)="keyup($event)">
-        {{fileName}}
-        <pre>{{ search.value | json }}</pre>
-        <ul>
-            <li *ngFor="let result of results">
-                <div class="titleNumberCol">
-                    {{result.titleNumber}}</div>
-                <span class="lengthCol">
-                    {{result.length}}</span>
-            </li>
-        </ul>
-    </div>
+  <div>
+    Get video file info
+        
+    <input #search type="text" (keyup)="keyup($event)">
+    {{fileName}}
+    <pre>{{ search.value | json }}</pre>
+    <ul>
+      <li *ngFor="let result of results">
+        <div class="titleNumberCol">
+          {{result.titleNumber}}</div>
+        <span class="lengthCol">
+          {{result.length}}</span>
+      </li>
+    </ul>
+  </div>
 </div>
