@@ -40,6 +40,8 @@ var urlCb = "?callback=JSON_CALLBACK";
 
 export class App {
     searches: EventEmitter = new EventEmitter();
+    fileName: String = "";
+    titleDetailsParsed: String = "";
 
     constructor(http:Http, jsonp:Jsonp) {
         this.searches._subject
